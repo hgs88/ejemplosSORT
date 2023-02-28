@@ -1,0 +1,25 @@
+//SORTHED1   JOB (),TRALEY,COND=(8,LT),                                 00020005
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID                         00030000
+//*                                                                     00040000
+//* USE SORT                                                            00050000
+//*                                                                     00060000
+//ST1      EXEC PGM=SORT                                                00159704
+//SYSOUT   DD SYSOUT=*                                                  00159800
+//SORTIN  DD DSN=VERDURA.VENTAS.SEL9,DISP=SHR                           00160004
+//SORTOUT   DD DUMMY                                                    00160102
+//SALIDA    DD SYSOUT=*                                                 00160201
+//SYSIN DD *                                                            00160500
+  OPTION COPY                                                           00160602
+  OUTFIL FNAMES=SALIDA,LINES=17,                                        00160804
+  HEADER2=(/,1:'ANYO',7:'VEND',13:'PROD',19:'  KILOS  ',/,              00161004
+  1:4'-',7:4'-',13:4'-',19:10'-'),                                      00161104
+  OUTREC=(1,4,2X,5,4,ZD,EDIT=(IIIT),2X,9,4,ZD,EDIT=(IIIT),              00161204
+                     2X,13,5,PD,EDIT=(III.IIT,TT))                      00161304
+/*                                                                      00161400
+//                                                                      00161500
+//SORTOUT    DD DSN=VERDURA.VENTAS.SEL7,DISP=(NEW,CATLG),               00161600
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00162000
+//            DCB=(RECFM=FB,LRECL=17,BLKSIZE=27990)                     00163000
+//SORTOUT    DD DSN=VERDURA.VENTAS.SEL8,DISP=(NEW,CATLG),               00164001
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00165001
+//            DCB=(RECFM=FB,LRECL=17,BLKSIZE=17000)                     00166001

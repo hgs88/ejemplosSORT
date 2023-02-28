@@ -1,0 +1,31 @@
+//REPROHIS  JOB ,                                                       
+// MSGCLASS=H,MSGLEVEL=(1,1),TIME=(,4),REGION=70M,                      
+// USER=&SYSUID,NOTIFY=&SYSUID                                          
+//******************************                                        
+//* BORRA FICHERO VENTAS                                                
+//******************************                                        
+//DELETE EXEC PGM=IDCAMS                                                
+//SYSPRINT DD SYSOUT=A                                                  
+//SYSIN DD *                                                            
+ DELETE VERDUR.HISVENT                                                 
+/*                                                                      
+//* DEFINE KSDS                                                         
+//**************************************************************        
+//DEFINE EXEC PGM=IDCAMS                                                
+//SYSPRINT DD SYSOUT=A                                                  
+//SYSIN DD *                                                            
+  DEFINE CLUSTER (NAME(VERDUR.HISVENT) -                               
+  INDEXED -                                                            
+  RECORDS(5000 100) -                                                  
+  LOG(NONE) -                                                          
+  KEYS(12 0) -                                                         
+  VOLUMES(HECTOR) -                                                     
+  SHR(2 3) -                                                            
+  RECORDSIZE(17 17))                                                    
+/*                                                                      
+//REPRO EXEC PGM=IDCAMS                                                 
+//SYSPRINT DD SYSOUT=*                                                  
+//SYSIN DD *                                                            
+  REPRO INDATASET(VERDURA.VENTS.SEL7) -                                
+    OUTDATASET(VERDUR.HISVENT)                                         
+/*                                                                      

@@ -1,0 +1,47 @@
+//SORT3      JOB (),TRALEY,COND=(8,LT),                                 00020001
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID                         00030000
+//*** BORRA EL FICHERO                                                  00031000
+//DELETE EXEC PGM=IDCAMS                                                00031100
+//SYSPRINT DD SYSOUT=A                                                  00031200
+//SYSIN DD *                                                            00031300
+ DELETE VERDURA.VENTAS.SEL3                                             00031401
+/*                                                                      00031601
+//*                                                                     00040000
+//* USE SORT                                                            00050000
+//*                                                                     00060000
+//ST1      EXEC PGM=SORT,COND=(8,LT)                                    00070002
+//SYSOUT   DD SYSOUT=*                                                  00080000
+//SORTIN   DD DSN=VERDURA.VENTAS,DISP=SHR                               00090000
+//**SORTOUT  DD DSN=VERDURA.VENTAS.SEL,DISP=SHR                         00100000
+//SORTOUT    DD DSN=&&INTER1,DISP=(NEW,PASS),                           00101002
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00102000
+//            DCB=(RECFM=FB,LRECL=28,BLKSIZE=27972)                     00104000
+//SYSIN DD *                                                            00110000
+  INCLUDE COND=(15,4,CH,EQ,C'2000')                                     00140000
+  OUTREC IFTHEN=(WHEN=(15,6,CH,GE,C'200001',AND,15,6,CH,LE,C'200006'),  00140202
+            OVERLAY=(1,5,C'0')),                                        00140301
+         IFTHEN=(WHEN=(15,6,CH,GE,C'200007',AND,15,6,CH,LE,C'200012'),  00140401
+            OVERLAY=(1,5,C'1'))                                         00140501
+  SORT FIELDS=COPY                                                      00140601
+/*                                                                      00150000
+//ST2      EXEC PGM=SORT,COND=(8,LT)                                    00151002
+//SYSOUT   DD SYSOUT=*                                                  00152001
+//SORTIN   DD DSN=&&INTER1,DISP=(SHR,PASS)                              00153002
+//**SORTOUT  DD DSN=VERDURA.VENTAS.SEL,DISP=SHR                         00154001
+//SORTOUT    DD DSN=&&INTER2,DISP=(NEW,PASS),                           00155002
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00156001
+//            DCB=(RECFM=FB,LRECL=23,BLKSIZE=23000)                     00157002
+//SYSIN DD *                                                            00158001
+  OUTREC FIELDS=(7,4,6,1,11,18)                                         00159102
+  SORT FIELDS=COPY                                                      00159202
+/*                                                                      00159601
+//ST3      EXEC PGM=SORT,COND=(8,LT)                                    00159702
+//SYSOUT   DD SYSOUT=*                                                  00159802
+//SORTIN   DD DSN=&&INTER2,DISP=(SHR,PASS)                              00159902
+//SORTOUT    DD DSN=VERDURA.VENTAS.SEL3,DISP=(NEW,CATLG),               00160102
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00160302
+//            DCB=(RECFM=FB,LRECL=23,BLKSIZE=23000)                     00160402
+//SYSIN DD *                                                            00160502
+  SORT FIELDS=(1,5,CH,A,7,4,CH,A,11,10,CH,A)                            00160702
+/*                                                                      00160802
+//                                                                      00160902

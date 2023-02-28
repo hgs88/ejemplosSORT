@@ -1,0 +1,10 @@
+//REPROHIT  JOB ,                                                       00010001
+// MSGCLASS=H,MSGLEVEL=(1,1),TIME=(,4),REGION=70M,                      00020000
+// USER=&SYSUID,NOTIFY=&SYSUID                                          00030000
+//REPRO EXEC PGM=IDCAMS                                                 00270000
+//SYSPRINT DD SYSOUT=*                                                  00280000
+//SYSIN DD *                                                            00290000
+  REPRO INDATASET(VERDURA.HISVENT.SEQ) -                                00300000
+    OUTDATASET(VERDURA.HISVENT) -                                       00310002
+    REPLACE                                                             00311002
+/*                                                                      00320000

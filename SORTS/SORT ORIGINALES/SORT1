@@ -1,0 +1,26 @@
+//SORT1      JOB (),TRALEY,COND=(8,LT),                                 00020004
+//            CLASS=A,MSGCLASS=H,NOTIFY=&SYSUID                         00030001
+//*** BORRA EL FICHERO                                                  00031003
+//DELETE EXEC PGM=IDCAMS                                                00031104
+//SYSPRINT DD SYSOUT=A                                                  00031204
+//SYSIN DD *                                                            00031304
+ DELETE VERDURA.VENTAS.SEL                                              00031404
+/*                                                                      00031504
+//*                                                                     00040001
+//* USE SORT                                                            00050001
+//*                                                                     00060001
+//ST3      EXEC PGM=SORT,COND=(8,LT)                                    00070004
+//SYSOUT   DD SYSOUT=*                                                  00080001
+//SORTIN   DD DSN=VERDURA.VENTAS,DISP=SHR                               00090001
+//**SORTOUT  DD DSN=VERDURA.VENTAS.SEL,DISP=SHR                         00100003
+//SORTOUT    DD DSN=VERDURA.VENTAS.SEL,DISP=(NEW,CATLG),                00101005
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00102004
+//            DCB=(RECFM=FB,LRECL=28,BLKSIZE=27972)                     00104005
+//SYSIN DD *                                                            00110001
+  SORT FIELDS=(7,4,CH,A,11,4,CH,A,15,10,CH,A)                           00120001
+  INCLUDE COND=(15,4,CH,EQ,C'2000')                                     00140001
+/*                                                                      00150001
+//                                                                      00160001
+//SORTOUT    DD DSN=VERDURA.VENTAS.SEL,DISP=(NEW,CATLG),                00170005
+//            UNIT=3390,SPACE=(TRK,(2,1),RLSE),VOL=SER=ZUSER1,          00180004
+//            DCB=(RECFM=FB,LRECL=28,BLKSIZE=27972)                     00210005

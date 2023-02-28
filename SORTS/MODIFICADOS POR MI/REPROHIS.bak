@@ -1,0 +1,31 @@
+//REPROHIS  JOB ,                                                       00010001
+// MSGCLASS=H,MSGLEVEL=(1,1),TIME=(,4),REGION=70M,                      00020001
+// USER=&SYSUID,NOTIFY=&SYSUID                                          00030001
+//******************************                                        00040001
+//* BORRA FICHERO VENTAS                                                00050001
+//******************************                                        00060001
+//DELETE EXEC PGM=IDCAMS                                                00070001
+//SYSPRINT DD SYSOUT=A                                                  00080001
+//SYSIN DD *                                                            00090001
+ DELETE VERDUR.HISVENT                                                 00100001
+/*                                                                      00110001
+//* DEFINE KSDS                                                         00120001
+//**************************************************************        00130001
+//DEFINE EXEC PGM=IDCAMS                                                00140001
+//SYSPRINT DD SYSOUT=A                                                  00150001
+//SYSIN DD *                                                            00160001
+  DEFINE CLUSTER (NAME(VERDUR.HISVENT) -                               00170001
+  INDEXED -                                                             00180001
+  RECORDS(5000 100) -                                                   00190001
+  LOG(NONE) -                                                           00200001
+  KEYS(12 0) -                                                          00210002
+  VOLUMES(HECTOR) -                                                     00220001
+  SHR(2 3) -                                                            00230001
+  RECORDSIZE(17 17))                                                    00240001
+/*                                                                      00250001
+//REPRO EXEC PGM=IDCAMS                                                 00270001
+//SYSPRINT DD SYSOUT=*                                                  00280001
+//SYSIN DD *                                                            00290001
+  REPRO INDATASET(VERDURA.VENTS.SEL7) -                                00300001
+    OUTDATASET(VERDUR.HISVENT)                                         00310001
+/*                                                                      00320001
